@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Box, TextField, Button, Typography, Paper } from '@mui/material';
-import './Chatbot.css'; // Import your CSS file
+import './Chatbot.css'; 
+import { reportWebVitals } from 'web-vitals';
 
 function Chatbot() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false); 
 
     const sendMessage = async () => {
         if (input.trim() === '') return;
 
         const userMessage = { sender: 'user', text: input };
         setMessages([...messages, userMessage]);
+        
+        setIsLoading(true);
 
         try {
             const response = await axios.post('http://localhost:5000/chat', { query: input });
@@ -20,9 +24,10 @@ function Chatbot() {
         } catch (error) {
             const errorMessage = { sender: 'bot', text: 'Error connecting to server.' };
             setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsLoading(false); 
+            setInput('');
         }
-
-        setInput('');
     };
 
     return (
@@ -37,6 +42,11 @@ function Chatbot() {
                             </Typography>
                         </Box>
                     ))}
+                    {isLoading && (
+                        <Box className="message bot">
+                            <Typography variant="body1">Bot is typing...</Typography>
+                        </Box>
+                    )}
                 </Box>
                 <Box display="flex">
                     <TextField
