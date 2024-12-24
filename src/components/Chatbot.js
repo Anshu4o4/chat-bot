@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Box, TextField, Button, Typography, Paper } from '@mui/material';
 import './Chatbot.css'; 
-import { reportWebVitals } from 'web-vitals';
 
 function Chatbot() {
     const [messages, setMessages] = useState([]);

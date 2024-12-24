@@ -1,7 +1,6 @@
 import React from 'react';
 import Chatbot from './components/Chatbot';
 import { ThemeProvider, createTheme } from '@mui/material';
-import { reportWebVitals } from 'web-vitals';
 
 function App() {
     const theme = createTheme();
